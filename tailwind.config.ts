@@ -21,11 +21,11 @@ const config: Config = {
 
         // ── Base ──────────────────────────────────────
         base: {
-          primary:    '#F4F1ED',
-          secondary:  '#EAE6DF',
-          tertiary:   '#D9D4CB',
-          foreground: '#3A3530',
-          muted:      '#6B655C',
+          "primary":    '#F4F1ED',
+          "secondary":  '#EAE6DF',
+          "tertiary":   '#D9D4CB',
+          "foreground": '#3A3530',
+          "muted":      '#6B655C',
         },
 
         // ── Accent ───────────────────────────────────

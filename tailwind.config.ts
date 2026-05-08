@@ -1,10 +1,7 @@
 import type { Config } from 'tailwindcss';
 
-module.exports = {
-    important: true,  //add!
-};
-
 const config: Config = {
+  important: true, // add!
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -24,22 +21,22 @@ const config: Config = {
 
         // ── Base ──────────────────────────────────────
         base: {
-          primary:    '#F4F1ED', // ページ背景
-          secondary:  '#EAE6DF', // サーフェス
-          tertiary:   '#D9D4CB', // ボーダー
-          foreground: '#3A3530', // 本文テキスト
-          muted:      '#6B655C', // 補足テキスト
+          primary:    '#F4F1ED',
+          secondary:  '#EAE6DF',
+          tertiary:   '#D9D4CB',
+          foreground: '#3A3530',
+          muted:      '#6B655C',
         },
 
         // ── Accent ───────────────────────────────────
         accent: {
           primary: {
-            DEFAULT: '#4A6580', // メインアクション
-            light:   '#6B8299', // ホバー
-            dark:    '#354A5E', // 押下・強調
+            DEFAULT: '#4A6580',
+            light:   '#6B8299',
+            dark:    '#354A5E',
           },
-          secondary: '#7A6352', // 特別アクション
-          tertiary:  '#5C7A6E', // 情報・補助
+          secondary: '#7A6352',
+          tertiary:  '#5C7A6E',
         },
 
         // ── Status ───────────────────────────────────
@@ -69,15 +66,16 @@ const config: Config = {
           },
         },
       },
-    },
-    keyframes: {
-      shimmer: {
-        '100%': {
-          transform: 'translateX(100%)',
+      keyframes: { // ← extend の中に移動
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
         },
       },
     },
   },
   plugins: [require('@tailwindcss/forms')],
 };
+
 export default config;

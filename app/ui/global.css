@@ -1,19 +1,6 @@
-@import "tailwindcss";
-
-input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* ── Base ────────────────────────────────── */
@@ -79,4 +66,7 @@ input[type='number']::-webkit-outer-spin-button {
   .text-badge-tertiary { color: var(--color-badge-tertiary-text); }
   .bg-badge-muted { background-color: var(--color-badge-muted-bg); }
   .text-badge-muted { color: var(--color-badge-muted-text); }
+}
+
+input[type='number'] {
 }

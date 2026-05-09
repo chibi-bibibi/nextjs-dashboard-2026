@@ -16,3 +16,36 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+@import "tailwindcss";
+
+@theme {
+  /* ── Base ────────────────────────────────── */
+  --color-base-primary:    #F4F1ED;
+  --color-base-secondary:  #EAE6DF;
+  --color-base-tertiary:   #D9D4CB;
+  --color-base-foreground: #3A3530;
+  --color-base-muted:      #6B655C;
+
+  /* ── Accent ──────────────────────────────── */
+  --color-accent-primary:       #4A6580;
+  --color-accent-primary-light: #6B8299;
+  --color-accent-primary-dark:  #354A5E;
+  --color-accent-secondary:     #7A6352;
+  --color-accent-tertiary:      #5C7A6E;
+
+  /* ── Status ──────────────────────────────── */
+  --color-status-success: #5C7A6E;
+  --color-status-warning: #A87D45;
+  --color-status-danger:  #9E5050;
+
+  /* ── Badge ───────────────────────────────── */
+  --color-badge-primary-bg:     #D8E3ED;
+  --color-badge-primary-text:   #2D4A60;
+  --color-badge-secondary-bg:   #F0E3D5;
+  --color-badge-secondary-text: #6B4530;
+  --color-badge-tertiary-bg:    #DCE9E4;
+  --color-badge-tertiary-text:  #3A5E52;
+  --color-badge-muted-bg:       #D9D4CB;
+  --color-badge-muted-text:     #6B655C;
+}

@@ -2,71 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* ── Base ────────────────────────────────── */
-  --color-base-primary:    #F4F1ED;
-  --color-base-secondary:  #EAE6DF;
-  --color-base-tertiary:   #D9D4CB;
-  --color-base-foreground: #3A3530;
-  --color-base-muted:      #6B655C;
-
-  /* ── Accent ──────────────────────────────── */
-  --color-accent-primary:       #4A6580;
-  --color-accent-primary-light: #6B8299;
-  --color-accent-primary-dark:  #354A5E;
-  --color-accent-secondary:     #7A6352;
-  --color-accent-tertiary:      #5C7A6E;
-
-  /* ── Status ──────────────────────────────── */
-  --color-status-success: #5C7A6E;
-  --color-status-warning: #A87D45;
-  --color-status-danger:  #9E5050;
-
-  /* ── Badge ───────────────────────────────── */
-  --color-badge-primary-bg:     #D8E3ED;
-  --color-badge-primary-text:   #2D4A60;
-  --color-badge-secondary-bg:   #F0E3D5;
-  --color-badge-secondary-text: #6B4530;
-  --color-badge-tertiary-bg:    #DCE9E4;
-  --color-badge-tertiary-text:  #3A5E52;
-  --color-badge-muted-bg:       #D9D4CB;
-  --color-badge-muted-text:     #6B655C;
-}
-
-@layer utilities {
-  /* Base colors */
-  .bg-base-primary { background-color: var(--color-base-primary); }
-  .bg-base-secondary { background-color: var(--color-base-secondary); }
-  .bg-base-tertiary { background-color: var(--color-base-tertiary); }
-  .text-base-foreground { color: var(--color-base-foreground); }
-  .text-base-muted { color: var(--color-base-muted); }
-  
-  /* Accent colors */
-  .bg-accent-primary { background-color: var(--color-accent-primary); }
-  .bg-accent-primary-light { background-color: var(--color-accent-primary-light); }
-  .bg-accent-primary-dark { background-color: var(--color-accent-primary-dark); }
-  .bg-accent-secondary { background-color: var(--color-accent-secondary); }
-  .bg-accent-tertiary { background-color: var(--color-accent-tertiary); }
-  .text-accent-primary { color: var(--color-accent-primary); }
-  
-  /* Status colors */
-  .bg-status-success { background-color: var(--color-status-success); }
-  .bg-status-warning { background-color: var(--color-status-warning); }
-  .bg-status-danger { background-color: var(--color-status-danger); }
-  .text-status-success { color: var(--color-status-success); }
-  .text-status-warning { color: var(--color-status-warning); }
-  .text-status-danger { color: var(--color-status-danger); }
-  
-  /* Badge colors */
-  .bg-badge-primary { background-color: var(--color-badge-primary-bg); }
-  .text-badge-primary { color: var(--color-badge-primary-text); }
-  .bg-badge-secondary { background-color: var(--color-badge-secondary-bg); }
-  .text-badge-secondary { color: var(--color-badge-secondary-text); }
-  .bg-badge-tertiary { background-color: var(--color-badge-tertiary-bg); }
-  .text-badge-tertiary { color: var(--color-badge-tertiary-text); }
-  .bg-badge-muted { background-color: var(--color-badge-muted-bg); }
-  .text-badge-muted { color: var(--color-badge-muted-text); }
-}
-
 input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

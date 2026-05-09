@@ -47,7 +47,36 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 @layer utilities {
+  /* Base colors */
+  .bg-base-primary { background-color: var(--color-base-primary); }
   .bg-base-secondary { background-color: var(--color-base-secondary); }
+  .bg-base-tertiary { background-color: var(--color-base-tertiary); }
   .text-base-foreground { color: var(--color-base-foreground); }
   .text-base-muted { color: var(--color-base-muted); }
+  
+  /* Accent colors */
+  .bg-accent-primary { background-color: var(--color-accent-primary); }
+  .bg-accent-primary-light { background-color: var(--color-accent-primary-light); }
+  .bg-accent-primary-dark { background-color: var(--color-accent-primary-dark); }
+  .bg-accent-secondary { background-color: var(--color-accent-secondary); }
+  .bg-accent-tertiary { background-color: var(--color-accent-tertiary); }
+  .text-accent-primary { color: var(--color-accent-primary); }
+  
+  /* Status colors */
+  .bg-status-success { background-color: var(--color-status-success); }
+  .bg-status-warning { background-color: var(--color-status-warning); }
+  .bg-status-danger { background-color: var(--color-status-danger); }
+  .text-status-success { color: var(--color-status-success); }
+  .text-status-warning { color: var(--color-status-warning); }
+  .text-status-danger { color: var(--color-status-danger); }
+  
+  /* Badge colors */
+  .bg-badge-primary { background-color: var(--color-badge-primary-bg); }
+  .text-badge-primary { color: var(--color-badge-primary-text); }
+  .bg-badge-secondary { background-color: var(--color-badge-secondary-bg); }
+  .text-badge-secondary { color: var(--color-badge-secondary-text); }
+  .bg-badge-tertiary { background-color: var(--color-badge-tertiary-bg); }
+  .text-badge-tertiary { color: var(--color-badge-tertiary-text); }
+  .bg-badge-muted { background-color: var(--color-badge-muted-bg); }
+  .text-badge-muted { color: var(--color-badge-muted-text); }
 }

@@ -54,6 +54,8 @@ module.exports = {
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
         './app/ui/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/dashboard/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/login/**/*.{js,ts,jsx,tsx,mdx}',
     ],
     theme: {
         extend: {

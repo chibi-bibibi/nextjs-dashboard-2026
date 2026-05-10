@@ -57,12 +57,12 @@ module.exports = {
             gridTemplateColumns: {
                 '13': 'repeat(13, minmax(0, 1fr))',
             },
-            colors: colors,
-        },
-        keyframes: {
-            shimmer: {
-                '100%': {
-                    transform: 'translateX(100%)',
+            colors,
+            keyframes: {
+                shimmer: {
+                    '100%': {
+                        transform: 'translateX(100%)',
+                    },
                 },
             },
         },

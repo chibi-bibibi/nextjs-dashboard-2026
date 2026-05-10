@@ -50,12 +50,7 @@ const colors = {
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-        './pages/**/*.{js,ts,jsx,tsx,mdx}',
-        './components/**/*.{js,ts,jsx,tsx,mdx}',
-        './app/**/*.{js,ts,jsx,tsx,mdx}',
-        './app/ui/**/*.{js,ts,jsx,tsx,mdx}',
-        './app/dashboard/**/*.{js,ts,jsx,tsx,mdx}',
-        './app/login/**/*.{js,ts,jsx,tsx,mdx}',
+        './app/**/*.{ts,tsx,jsx,js}',
     ],
     theme: {
         extend: {

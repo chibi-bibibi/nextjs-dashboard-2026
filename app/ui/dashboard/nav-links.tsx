@@ -12,16 +12,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import clsx from "clsx";
 
-const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
-  {
-    name: "Invoices",
-    href: "/dashboard/invoices",
-    icon: DocumentDuplicateIcon,
-  },
-  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
-];
-
 const booksSubLinks = [
   { name: "Dashboard", href: "/dashboard/books" },
   { name: "Category", href: "/dashboard/books/category" },
@@ -30,16 +20,40 @@ const booksSubLinks = [
   { name: "Books", href: "/dashboard/books/master" },
 ];
 
+const links = [
+  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  {
+    name: "Invoices",
+    href: "/dashboard/invoices",
+    icon: DocumentDuplicateIcon,
+  },
+  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  {
+    name: "Books",
+    href: "/dashboard/books",
+    icon: BookOpenIcon,
+    subLinks: booksSubLinks,
+    stateKey: "booksOpen",
+  },
+];
+
 export default function NavLinks() {
   const pathname = usePathname();
   const isBooksRoute = pathname.startsWith("/dashboard/books");
-  const [booksOpen, setBooksOpen] = useState(isBooksRoute);
+  const [openStates, setOpenStates] = useState<Record<string, boolean>>({
+    booksOpen: isBooksRoute,
+  });
+
+  const toggleOpen = (key: string) => {
+    setOpenStates((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
     <>
       {links.map((link) => {
         const LinkIcon = link.icon;
-        return (
+        const isOpen = link.stateKey ? !!openStates[link.stateKey] : false;
+        return !link.subLinks ? (
           <Link
             key={link.name}
             href={link.href}
@@ -54,60 +68,59 @@ export default function NavLinks() {
             <LinkIcon className="w-6" />
             <p className="hidden m-3 md:block">{link.name}</p>
           </Link>
+        ) : (
+          <div>
+            <button
+              onClick={() => link.stateKey && toggleOpen(link.stateKey)}
+              className={clsx(
+                "w-full flex h-[48px] grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-primary hover:text-foreground md:flex-none md:justify-start md:p-2 md:px-3",
+                {
+                  "bg-primary text-foreground border-r-4 border-accent-primary-dark":
+                    (isOpen && isBooksRoute) || isBooksRoute,
+                },
+              )}
+            >
+              <BookOpenIcon className="w-6 shrink-0" />
+              <p className="hidden m-3 md:block flex-1 text-left">Books</p>
+              <ChevronRightIcon
+                className={clsx(
+                  "hidden md:block w-4 shrink-0 transition-transform duration-200",
+                  {
+                    "rotate-90": isOpen,
+                  },
+                )}
+              />
+            </button>
+
+            {isOpen && (
+              <div className="hidden md:flex flex-col">
+                {booksSubLinks.map((sub) => {
+                  const isSubActive = pathname === sub.href;
+                  return (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      className="group relative flex w-full items-center py-0.5 pl-2 pr-0"
+                    >
+                      <span
+                        className={clsx(
+                          "w-full flex grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-primary hover:text-foreground md:flex-none md:justify-start md:p-2 md:px-3",
+                          {
+                            "bg-primary text-foreground border-r-4 border-accent-primary-dark":
+                              isSubActive,
+                          },
+                        )}
+                      >
+                        {sub.name}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         );
       })}
-
-      {/* Books グループ */}
-      <div>
-        <button
-          onClick={() => setBooksOpen((prev) => !prev)}
-          className={clsx(
-            "w-full flex h-[48px] grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-primary hover:text-foreground md:flex-none md:justify-start md:p-2 md:px-3",
-            {
-              "bg-primary text-foreground border-r-4 border-accent-primary-dark":
-                (booksOpen && isBooksRoute) || isBooksRoute,
-            },
-          )}
-        >
-          <BookOpenIcon className="w-6 shrink-0" />
-          <p className="hidden m-3 md:block flex-1 text-left">Books</p>
-          <ChevronRightIcon
-            className={clsx(
-              "hidden md:block w-4 shrink-0 transition-transform duration-200",
-              {
-                "rotate-90": booksOpen,
-              },
-            )}
-          />
-        </button>
-
-        {booksOpen && (
-          <div className="hidden md:flex flex-col">
-            {booksSubLinks.map((sub) => {
-              const isSubActive = pathname === sub.href;
-              return (
-                <Link
-                  key={sub.href}
-                  href={sub.href}
-                  className="group relative flex w-full items-center py-0.5 pl-2 pr-0"
-                >
-                  <span
-                    className={clsx(
-                      "w-full flex grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-primary hover:text-foreground md:flex-none md:justify-start md:p-2 md:px-3",
-                      {
-                        "bg-primary text-foreground border-r-4 border-accent-primary-dark":
-                          isSubActive,
-                      },
-                    )}
-                  >
-                    {sub.name}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-      </div>
     </>
   );
 }

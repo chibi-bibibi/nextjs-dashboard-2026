@@ -6,12 +6,12 @@ import { signOut } from "@/auth";
 
 export default function SideNav() {
   return (
-    <div className="bg-secondary flex h-full flex-col md:px-4">
+    <div className="bg-secondary flex h-full flex-col px-3 py-4 md:px-2">
       <Link
-        className="flex bg-secondary h-15 grow items-center justify-center rounded-md p-3 text-sm font-medium md:flex-none md:justify-start md:p-2 md:px-3"
+        className="mb-2 flex h-20 items-center justify-start rounded-md bg-secondary p-4"
         href="/"
       >
-        <div className="w-32 bg-secondary text-foreground md:w-40">
+        <div className="w-32 text-foreground md:w-40">
           <AcmeLogo />
         </div>
       </Link>

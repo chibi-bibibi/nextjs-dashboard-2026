@@ -8,6 +8,9 @@
 | customers | 請求対象の顧客 |
 | invoices | 請求書 |
 | revenue | 月次売上データ |
+| categories | カテゴリデータ |
+| authors | 著者データ |
+| publishers | 出版社データ |
 | books | 蔵書データ |
 
 ---
@@ -25,6 +28,20 @@
 
 ---
 
+## categories
+
+カテゴリデータ
+
+| カラム名 | データ型 | PK | UK | FK | NN | Default | 説明 |
+|---|---|:---:|:---:|:---:|:---:|---|---|
+| id | UUID | ○ | | | | uuid_generate_v4() | カテゴリID |
+| name | VARCHAR(255) | | | | ○ | | カテゴリ名 |
+| page | ENUM |  | | | ○ | | 対象ページ名（`todo` / `book`） |
+
+
+
+
+
 ## books
 
 書籍情報
@@ -33,8 +50,16 @@
 |---|---|:---:|:---:|:---:|:---:|---|---|
 | id | UUID | ○ | | | | uuid_generate_v4() | 書籍ID |
 | name | VARCHAR(255) | | | | ○ | | 書籍名 |
-| author_id | VARCHAR(255) | | | ○ | ○ | | 著者ID |
+| publisher_id | UUID | | | ○ | ○ | | 出版社ID |
+| author_id | UUID | | | ○ | ○ | | 著者ID |
+| category_id | UUID | | | ○ | ○ | | カテゴリID |
 
+| status | ENUM | | | | ○ | | ステータス |
+| memo | TEXT | | | | | | 備考 |
+| created_at | DATETIME | | | | ○ | now() | 登録日 |
+| updated_at | DATETIME | | | | ○ | now() | 更新日 |
+
+---
 
 ## customers
 

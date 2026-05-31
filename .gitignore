@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# placeholder data
+app/lib/placeholder-data.ts
+app/seed/route.ts

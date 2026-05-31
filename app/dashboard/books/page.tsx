@@ -1,38 +1,28 @@
-import Pagination from "@/app/ui/books/pagination";
-import Search from "@/app/ui/search";
-import Table from "@/app/ui/books/table";
-import { CreateInvoice } from "@/app/ui/books/buttons";
+import {
+  EyeIcon,
+  BookmarkIcon,
+} from "@heroicons/react/24/outline";
 import { lusitana } from "@/app/ui/fonts";
-import { Suspense } from "react";
-import { InvoicesTableSkeleton } from "@/app/ui/skeletons";
-import { fetchInvoicesPages } from "@/app/lib/data";
 
-export default async function Page(props: {
-  searchParams?: Promise<{
-    query?: string;
-    page?: string;
-  }>;
-}) {
-  const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchInvoicesPages(query);
+const stats = [
+  { title: "気になる", value: "36冊", icon: EyeIcon },
+  { title: "登録", value: "36冊", icon: BookmarkIcon },
+];
 
+export default function Page() {
   return (
-    <div className="w-full">
-      <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Books</h1>
-      </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search books..." />
-        <CreateInvoice />
-      </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
-      </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {stats.map(({ title, value, icon: Icon }) => (
+        <div key={title} className="rounded-xl bg-gray-50 p-2 shadow-sm">
+          <div className="flex p-4">
+            <Icon className="h-5 w-5 text-gray-700" />
+            <h3 className="ml-2 text-sm font-medium">{title}</h3>
+          </div>
+          <p className={`${lusitana.className} truncate rounded-xl bg-white px-4 py-8 text-center text-2xl`}>
+            {value}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }

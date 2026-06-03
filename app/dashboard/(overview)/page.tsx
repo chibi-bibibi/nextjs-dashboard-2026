@@ -2,7 +2,8 @@ import { Card } from "@/app/ui/dashboard/cards";
 import CardWrapper from "@/app/ui/dashboard/cards";
 import RevenueChart from "@/app/ui/dashboard/revenue-chart";
 import LatestInvoices from "@/app/ui/dashboard/latest-invoices";
-import { lusitana } from "@/app/ui/fonts";
+import BooksCard from "@/app/ui/dashboard/books-card";
+import TodosCard from "@/app/ui/dashboard/todos-card";
 import { fetchCardData } from "@/app/lib/data";
 import { Suspense } from "react";
 import {
@@ -10,6 +11,7 @@ import {
   RevenueChartSkeleton,
   CardsSkeleton,
 } from "@/app/ui/skeletons";
+import { lusitana } from "@/app/ui/fonts";
 
 export default async function Page() {
   const {
@@ -28,6 +30,20 @@ export default async function Page() {
         <Suspense fallback={<CardsSkeleton />}>
           <CardWrapper />
         </Suspense>
+      </div>
+
+      <h1 className={`${lusitana.className} mt-10 mb-4 text-xl md:text-2xl`}>
+        Books Data
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <BooksCard />
+      </div>
+
+      <h1 className={`${lusitana.className} mt-10 mb-4 text-xl md:text-2xl`}>
+        Todos
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <TodosCard />
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<RevenueChartSkeleton />}>

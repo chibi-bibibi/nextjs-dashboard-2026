@@ -14,6 +14,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   PowerIcon,
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import AcmeLogo from "@/app/ui/acme-logo";
@@ -23,7 +24,7 @@ const menuSections = [
   {
     title: "メイン",
     items: [
-      { name: "ホーム", icon: HomeIcon, href: "/dashboard", exact: true },
+      { name: "ホーム", icon: HomeIcon, href: "/dashboard/home", exact: true },
       {
         name: "請求書",
         icon: DocumentDuplicateIcon,
@@ -51,6 +52,12 @@ const menuSections = [
       { name: "Books", icon: BookOpenIcon, href: "/dashboard/books/master" },
     ],
   },
+  {
+    title: "設定",
+    items: [
+      { name: "環境設定", icon: Cog6ToothIcon, href: "/dashboard/settings" },
+    ],
+  },
 ];
 
 export default function SideNav() {
@@ -58,6 +65,7 @@ export default function SideNav() {
   const [expandedSections, setExpandedSections] = useState<string[]>([
     "メイン",
     "Books",
+    "設定",
   ]);
 
   const toggleSection = (title: string) => {
@@ -73,7 +81,7 @@ export default function SideNav() {
     <div className="flex h-full flex-col border-r border-border bg-sidebar">
       {/* Logo */}
       <div className="flex items-center border-b border-border px-4 py-5">
-        <Link href="/">
+        <Link href="/dashboard">
           <AcmeLogo />
         </Link>
       </div>

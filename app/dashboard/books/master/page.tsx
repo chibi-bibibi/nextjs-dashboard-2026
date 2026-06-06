@@ -1,3 +1,4 @@
+import PageHeader from "@/app/ui/page-header";
 import Pagination from "@/app/ui/books/pagination";
 import Search from "@/app/ui/search";
 import Table from "@/app/ui/books/table";
@@ -18,17 +19,20 @@ export default async function Page(props: {
   const totalPages = await fetchInvoicesPages(query);
 
   return (
-    <div className="w-full">
-      <div className="flex items-center justify-between gap-2">
-        <Search placeholder="Search books..." />
-        <CreateInvoice />
+    <main>
+      <PageHeader parent="Books" title="Books" />
+      <div className="rounded-lg border border-border bg-card p-6">
+        <div className="flex items-center justify-between gap-2">
+          <Search placeholder="Search books..." />
+          <CreateInvoice />
+        </div>
+        <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+          <Table query={query} currentPage={currentPage} />
+        </Suspense>
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </div>
-      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
-      </Suspense>
-      <div className="mt-5 flex w-full justify-center">
-        <Pagination totalPages={totalPages} />
-      </div>
-    </div>
+    </main>
   );
 }

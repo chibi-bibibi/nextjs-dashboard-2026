@@ -12,7 +12,7 @@ export default function TodayCard() {
         <p className="text-7xl font-light text-foreground tracking-tight">
           {month}/{day}
         </p>
-        <p className="text-xl text-muted">{dayName}</p>
+        <p className="text-xl text-muted-foreground">{dayName}</p>
       </div>
     </div>
   );

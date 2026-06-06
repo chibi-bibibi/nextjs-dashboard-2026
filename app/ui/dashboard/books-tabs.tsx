@@ -24,8 +24,8 @@ export default function BooksTabs() {
           className={clsx(
             "shrink-0 px-4 py-2 text-sm font-medium whitespace-nowrap border-b-2 -mb-px transition-colors",
             pathname === tab.href
-              ? "border-accent-primary-dark text-foreground"
-              : "border-transparent text-muted hover:text-foreground hover:border-gray-300",
+              ? "border-primary text-foreground"
+              : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300",
           )}
         >
           {tab.name}

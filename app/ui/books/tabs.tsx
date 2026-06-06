@@ -23,8 +23,8 @@ export default function BooksTabs() {
             className={clsx(
               "px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px",
               isActive
-                ? "border-accent-primary text-accent-primary"
-                : "border-transparent text-muted hover:text-foreground hover:border-gray-300"
+                ? "border-primary text-primary"
+                : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
             )}
           >
             {tab.name}

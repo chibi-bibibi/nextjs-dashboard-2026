@@ -105,7 +105,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 />
                 <label
                   htmlFor="paid"
-                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-status-success px-3 py-1.5 text-xs font-medium text-white"
+                  className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-success px-3 py-1.5 text-xs font-medium text-success-foreground"
                 >
                   Paid <CheckIcon className="h-4 w-4" />
                 </label>
@@ -123,7 +123,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         </Link>
         <button
           type="submit"
-          className="flex h-10 items-center rounded-lg bg-accent-primary px-4 text-sm font-medium text-white transition-colors hover:bg-accent-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+          className="flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
         >
           Create Invoice
         </button>

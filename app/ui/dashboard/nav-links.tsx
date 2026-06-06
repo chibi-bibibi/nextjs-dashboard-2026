@@ -36,9 +36,9 @@ const links = [
 ];
 
 const navClass =
-  "flex h-[48px] grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-primary hover:text-foreground md:flex-none md:justify-start md:p-2 md:px-3";
+  "flex h-[48px] grow items-center justify-center rounded-md p-3 text-sm font-medium hover:bg-sidebar-accent hover:text-sidebar-accent-foreground md:flex-none md:justify-start md:p-2 md:px-3";
 const activeClass =
-  "bg-primary text-foreground border-r-4 border-accent-primary-dark";
+  "bg-sidebar-accent text-sidebar-accent-foreground border-r-4 border-primary";
 
 export default function NavLinks() {
   const pathname = usePathname();
@@ -85,7 +85,9 @@ export default function NavLinks() {
               })}
             >
               <LinkIcon className="w-6 shrink-0" />
-              <p className="hidden m-3 md:block flex-1 text-left">{link.name}</p>
+              <p className="hidden m-3 md:block flex-1 text-left">
+                {link.name}
+              </p>
               <ChevronRightIcon
                 className={clsx(
                   "hidden md:block w-4 shrink-0 transition-transform duration-200",

@@ -8,7 +8,7 @@ export default function InvoiceStatus({ status }: { status: string }) {
         "inline-flex items-center rounded-full px-2 py-1 text-xs",
         {
           "bg-gray-100 text-gray-500": status === "pending",
-          "bg-status-success text-white": status === "paid",
+          "bg-success text-success-foreground": status === "paid",
         },
       )}
     >

@@ -18,9 +18,9 @@ export function UpdateBook({ id }: { id: string }) {
   return (
     <Link
       href={`/book-tools/bookshelf/${id}/edit`}
-      className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-muted"
+      className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-primary/10 hover:text-primary hover:border-primary/30"
     >
-      <PencilIcon className="w-4" />
+      <PencilIcon className="w-4 stroke-2" />
     </Link>
   );
 }
@@ -34,7 +34,7 @@ export function DeleteBook({ id }: { id: string }) {
         className="rounded-md border border-border p-2 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
       >
         <span className="sr-only">削除</span>
-        <TrashIcon className="w-4" />
+        <TrashIcon className="w-4 stroke-2" />
       </button>
     </form>
   );

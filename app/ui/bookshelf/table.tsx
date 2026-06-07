@@ -21,28 +21,37 @@ export default async function BookshelfTable({
 
   return (
     <div className="mt-4 overflow-auto max-h-100">
-      <table className="w-full text-sm">
+      <table className="w-full min-w-180 table-fixed text-sm">
+        <colgroup>
+          <col className="w-[24%]" />
+          <col className="w-[24%]" />
+          <col className="w-[16%]" />
+          <col className="w-[12%]" />
+          <col className="w-[8%]" />
+          <col className="w-[12%]" />
+          <col className="w-[4%]" />
+        </colgroup>
         <thead>
           <tr className="text-left text-xs font-medium text-muted-foreground">
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               タイトル
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               著者
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               出版社
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               分類
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               タグ
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 pr-4 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               発行日
             </th>
-            <th className="sticky top-0 z-10 bg-card border-b-2 border-border pb-2.5 font-medium">
+            <th className="sticky top-0 z-10 bg-card [box-shadow:0_2px_0_0_var(--border)] pb-3 px-3 font-medium">
               <span className="sr-only">操作</span>
             </th>
           </tr>
@@ -60,27 +69,35 @@ export default async function BookshelfTable({
           ) : (
             books.map((book) => (
               <tr key={book.id} className="hover:bg-muted/50">
-                <td className="py-2 pr-4 font-medium text-foreground">
-                  <span className="line-clamp-1 max-w-xs">{book.title}</span>
+                <td className="py-3 px-3 font-medium text-foreground">
+                  <span className="block truncate">{book.title}</span>
                 </td>
-                <td className="py-2 pr-4 text-muted-foreground">
-                  {book.writer_names ?? "—"}
+                <td className="py-3 px-3 text-muted-foreground">
+                  <span className="block truncate">
+                    {book.writer_names ?? "—"}
+                  </span>
                 </td>
-                <td className="py-2 pr-4 text-muted-foreground">
-                  {book.publisher_name ?? "—"}
+                <td className="py-3 px-3 text-muted-foreground">
+                  <span className="block truncate">
+                    {book.publisher_name ?? "—"}
+                  </span>
                 </td>
-                <td className="py-2 pr-4 text-muted-foreground">
-                  {book.main_category_no != null && book.main_category_name
-                    ? `${book.main_category_no} : ${book.main_category_name}${book.sub_category_no != null && book.sub_category_name ? ` - ${book.sub_category_no} : ${book.sub_category_name}` : ""}`
-                    : "—"}
+                <td className="py-3 px-3 text-muted-foreground">
+                  <span className="block truncate">
+                    {book.main_category_no != null && book.main_category_name
+                      ? `${book.main_category_no} : ${book.main_category_name}${book.sub_category_no != null && book.sub_category_name ? ` - ${book.sub_category_no} : ${book.sub_category_name}` : ""}`
+                      : "—"}
+                  </span>
                 </td>
-                <td className="py-2 pr-4 text-muted-foreground">
-                  {book.tag_names ?? "—"}
+                <td className="py-3 px-3 text-muted-foreground">
+                  <span className="block truncate">
+                    {book.tag_names ?? "—"}
+                  </span>
                 </td>
-                <td className="whitespace-nowrap py-2 pr-4 text-muted-foreground">
+                <td className="whitespace-nowrap py-3 px-3 text-muted-foreground">
                   {formatDate(book.published_at)}
                 </td>
-                <td className="whitespace-nowrap py-2">
+                <td className="px-3 py-2">
                   <div className="flex justify-end gap-2">
                     <UpdateBook id={book.id} />
                     <DeleteBook id={book.id} />

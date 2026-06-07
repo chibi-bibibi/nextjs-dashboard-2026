@@ -41,11 +41,9 @@ export default async function Page(props: {
         <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
           <BookshelfTable query={query} currentPage={currentPage} />
         </Suspense>
-        {totalPages > 1 && (
-          <div className="mt-5 flex w-full justify-center">
-            <Pagination totalPages={totalPages} />
-          </div>
-        )}
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
       </div>
     </main>
   );

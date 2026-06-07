@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const tabs = [
-  { name: "Dashboard", href: "/dashboard/books" },
-  { name: "Category", href: "/dashboard/books/category" },
-  { name: "Author", href: "/dashboard/books/author" },
-  { name: "Publisher", href: "/dashboard/books/publisher" },
-  { name: "Books", href: "/dashboard/books/master" },
+  { name: "Dashboard", href: "/book-tools" },
+  { name: "Category", href: "/book-tools/tags" },
+  { name: "Author", href: "/book-tools/authors" },
+  { name: "Publisher", href: "/book-tools/publishers" },
+  { name: "Books", href: "/book-tools/bookshelf" },
 ];
 
 export default function BooksTabs() {

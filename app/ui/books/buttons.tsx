@@ -5,7 +5,7 @@ import { deleteInvoice } from "@/app/lib/actions";
 export function CreateInvoice() {
   return (
     <Link
-      href="/dashboard/books/create"
+      href="/book-tools/create"
       className="flex h-10 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
     >
       <span className="hidden md:block">Create Invoice</span>{" "}
@@ -17,7 +17,7 @@ export function CreateInvoice() {
 export function UpdateInvoice({ id }: { id: string }) {
   return (
     <Link
-      href={`/dashboard/books/${id}/edit`}
+      href={`/book-tools/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />

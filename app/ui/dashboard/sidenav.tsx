@@ -5,8 +5,6 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
   HomeIcon,
-  DocumentDuplicateIcon,
-  UserGroupIcon,
   BookOpenIcon,
   TagIcon,
   UserIcon,
@@ -15,47 +13,59 @@ import {
   ChevronRightIcon,
   PowerIcon,
   Cog6ToothIcon,
+  ChartBarSquareIcon,
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import AcmeLogo from "@/app/ui/acme-logo";
 import { handleSignOut } from "@/app/lib/actions";
 
-const menuSections = [
+type NavItem =
+  | { separator: true }
+  | {
+      separator?: false;
+      name: string;
+      icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+      href: string;
+      exact?: boolean;
+    };
+
+const menuSections: { title: string; items: NavItem[] }[] = [
   {
     title: "メイン",
     items: [
-      { name: "ホーム", icon: HomeIcon, href: "/dashboard/home", exact: true },
-      {
-        name: "請求書",
-        icon: DocumentDuplicateIcon,
-        href: "/dashboard/invoices",
-      },
-      { name: "顧客", icon: UserGroupIcon, href: "/dashboard/customers" },
+      { name: "ホーム", icon: HomeIcon, href: "/", exact: true },
     ],
   },
   {
-    title: "Books",
+    title: "BOOKS",
     items: [
       {
         name: "ダッシュボード",
-        icon: HomeIcon,
-        href: "/dashboard/books",
+        icon: ChartBarSquareIcon,
+        href: "/book-tools",
         exact: true,
       },
-      { name: "カテゴリー", icon: TagIcon, href: "/dashboard/books/category" },
-      { name: "著者", icon: UserIcon, href: "/dashboard/books/author" },
+      { name: "本棚", icon: BookOpenIcon, href: "/book-tools/bookshelf" },
+      {
+        name: "読書録",
+        icon: PencilSquareIcon,
+        href: "/book-tools/readinglog",
+      },
+      { separator: true },
       {
         name: "出版社",
         icon: BuildingOfficeIcon,
-        href: "/dashboard/books/publisher",
+        href: "/book-tools/publishers",
       },
-      { name: "Books", icon: BookOpenIcon, href: "/dashboard/books/master" },
+      { name: "著者・訳者", icon: UserIcon, href: "/book-tools/authors" },
+      { name: "タグ", icon: TagIcon, href: "/book-tools/tags" },
     ],
   },
   {
     title: "設定",
     items: [
-      { name: "環境設定", icon: Cog6ToothIcon, href: "/dashboard/settings" },
+      { name: "環境設定", icon: Cog6ToothIcon, href: "/settings" },
     ],
   },
 ];
@@ -81,7 +91,7 @@ export default function SideNav() {
     <div className="flex h-full flex-col border-r border-border bg-sidebar">
       {/* Logo */}
       <div className="flex items-center border-b border-border px-4 py-5">
-        <Link href="/dashboard">
+        <Link href="/">
           <AcmeLogo />
         </Link>
       </div>
@@ -103,23 +113,27 @@ export default function SideNav() {
             </button>
             {expandedSections.includes(section.title) && (
               <div className="space-y-1">
-                {section.items.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={clsx(
-                      "flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground transition-colors",
-                      "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                      {
-                        "bg-sidebar-accent text-sidebar-accent-foreground border-r-2 border-primary":
-                          isActive(item.href, item.exact),
-                      },
-                    )}
-                  >
-                    <item.icon className="h-4 w-4 shrink-0 text-muted-foreground" />
-                    {item.name}
-                  </Link>
-                ))}
+                {section.items.map((item, idx) =>
+                  item.separator ? (
+                    <hr key={idx} className="my-1.5 border-border" />
+                  ) : (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={clsx(
+                        "flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground transition-colors",
+                        "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                        {
+                          "bg-sidebar-accent text-sidebar-accent-foreground border-r-2 border-primary":
+                            isActive(item.href, item.exact),
+                        },
+                      )}
+                    >
+                      <item.icon className="h-4 w-4 shrink-0 text-muted-foreground" />
+                      {item.name}
+                    </Link>
+                  ),
+                )}
               </div>
             )}
           </div>

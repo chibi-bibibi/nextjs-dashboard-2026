@@ -13,24 +13,24 @@ import { useState } from "react";
 import clsx from "clsx";
 
 const links = [
-  { name: "Home", href: "/dashboard", icon: HomeIcon },
+  { name: "Home", href: "/", icon: HomeIcon },
   {
     name: "Invoices",
-    href: "/dashboard/invoices",
+    href: "/invoices",
     icon: DocumentDuplicateIcon,
   },
-  { name: "Customers", href: "/dashboard/customers", icon: UserGroupIcon },
+  { name: "Customers", href: "/customers", icon: UserGroupIcon },
   {
     name: "Books",
-    href: "/dashboard/books",
+    href: "/book-tools",
     icon: BookOpenIcon,
     stateKey: "booksOpen",
     subLinks: [
-      { name: "Dashboard", href: "/dashboard/books" },
-      { name: "Category", href: "/dashboard/books/category" },
-      { name: "Author", href: "/dashboard/books/author" },
-      { name: "Publisher", href: "/dashboard/books/publisher" },
-      { name: "Books", href: "/dashboard/books/master" },
+      { name: "Dashboard", href: "/book-tools" },
+      { name: "Category", href: "/book-tools/tags" },
+      { name: "Author", href: "/book-tools/authors" },
+      { name: "Publisher", href: "/book-tools/publishers" },
+      { name: "Books", href: "/book-tools/bookshelf" },
     ],
   },
 ];

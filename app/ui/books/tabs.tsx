@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const tabs = [
-  { name: "ダッシュボード", href: "/dashboard/books" },
-  { name: "マスタ管理", href: "/dashboard/books/master" },
+  { name: "ダッシュボード", href: "/book-tools" },
+  { name: "マスタ管理", href: "/book-tools/bookshelf" },
 ];
 
 export default function BooksTabs() {

@@ -1,21 +1,28 @@
 export default function PageHeader({
+  root,
   parent,
   title,
   className,
 }: {
+  root?: string;
   parent?: string;
   title: string;
   className?: string;
 }) {
+  const breadcrumb = [root, parent].filter(Boolean).join(" / ");
+
   return (
-    <h1 className={`mb-6 flex items-center gap-1.5 text-lg font-semibold text-foreground${className ? ` ${className}` : ""}`}>
-      {parent && (
-        <>
-          <span className="font-normal text-muted-foreground">{parent}</span>
-          <span className="text-muted-foreground">›</span>
-        </>
+    <div
+      className={`mb-8 flex flex-col gap-1${className ? ` ${className}` : ""}`}
+    >
+      {breadcrumb && (
+        <p className="hidden sm:block text-xs font-medium tracking-widest uppercase text-muted-foreground">
+          {breadcrumb}
+        </p>
       )}
-      {title}
-    </h1>
+      <h1 className="hidden sm:block text-2xl font-bold leading-tight text-foreground">
+        {title}
+      </h1>
+    </div>
   );
 }

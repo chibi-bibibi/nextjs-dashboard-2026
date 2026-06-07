@@ -38,13 +38,10 @@ export default function NavDrawer({ user }: { user: SessionUser | null }) {
       {/* モバイルドロワー */}
       {open && (
         <>
-          {/* バックドロップ */}
           <div
             className="fixed inset-0 z-30 bg-black/40 md:hidden"
             onClick={() => setOpen(false)}
           />
-
-          {/* ドロワー本体（右側からスライドイン） */}
           <div className="fixed inset-y-0 right-0 z-40 flex w-72 flex-col overflow-y-auto md:hidden">
             <SideNav user={user} onNavigate={() => setOpen(false)} />
           </div>

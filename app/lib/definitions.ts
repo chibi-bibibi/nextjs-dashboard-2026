@@ -96,6 +96,12 @@ export type BookRecord = {
   published_at: string | null;
   version: string | null;
   group_code: string | null;
+  main_category_no: number | null;
+  main_category_name: string | null;
+  sub_category_no: number | null;
+  sub_category_name: string | null;
+  writer_names: string | null;
+  tag_names: string | null;
   memo: string | null;
   created_at: string;
 };

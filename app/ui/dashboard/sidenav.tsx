@@ -11,7 +11,7 @@ import {
   BuildingOfficeIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  PowerIcon,
+  ArrowRightStartOnRectangleIcon,
   Cog6ToothIcon,
   ChartBarSquareIcon,
   PencilSquareIcon,
@@ -33,15 +33,13 @@ type NavItem =
 const menuSections: { title: string; items: NavItem[] }[] = [
   {
     title: "メイン",
-    items: [
-      { name: "ホーム", icon: HomeIcon, href: "/", exact: true },
-    ],
+    items: [{ name: "ホーム", icon: HomeIcon, href: "/", exact: true }],
   },
   {
     title: "BOOKS",
     items: [
       {
-        name: "ダッシュボード",
+        name: "サマリ",
         icon: ChartBarSquareIcon,
         href: "/book-tools",
         exact: true,
@@ -64,13 +62,22 @@ const menuSections: { title: string; items: NavItem[] }[] = [
   },
   {
     title: "設定",
-    items: [
-      { name: "環境設定", icon: Cog6ToothIcon, href: "/settings" },
-    ],
+    items: [{ name: "環境設定", icon: Cog6ToothIcon, href: "/settings" }],
   },
 ];
 
-export default function SideNav() {
+type SessionUser = {
+  name?: string | null;
+  email?: string | null;
+};
+
+export default function SideNav({
+  user,
+  onNavigate,
+}: {
+  user: SessionUser | null;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
   const [expandedSections, setExpandedSections] = useState<string[]>([
     "メイン",
@@ -90,7 +97,7 @@ export default function SideNav() {
   return (
     <div className="flex h-full flex-col border-r border-border bg-sidebar">
       {/* Logo */}
-      <div className="flex items-center border-b border-border px-4 py-5">
+      <div className="flex items-center border-b border-border px-4 py-3">
         <Link href="/">
           <AcmeLogo />
         </Link>
@@ -120,6 +127,7 @@ export default function SideNav() {
                     <Link
                       key={item.name}
                       href={item.href}
+                      onClick={onNavigate}
                       className={clsx(
                         "flex items-center gap-3 rounded-md px-3 py-2 text-sm text-sidebar-foreground transition-colors",
                         "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
@@ -144,11 +152,14 @@ export default function SideNav() {
       <div className="border-t border-border p-4">
         <div className="flex items-center gap-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground">
-            <span className="text-sm font-medium">U</span>
+            <span className="text-sm font-medium">
+              {user?.name?.[0]?.toUpperCase() ?? "U"}
+            </span>
           </div>
           <div className="flex-1 truncate">
-            <p className="text-sm font-medium text-sidebar-foreground">ユーザー</p>
-            <p className="truncate text-xs text-muted-foreground">Free プラン</p>
+            <p className="text-sm font-medium text-sidebar-foreground">
+              {user?.name ?? "ユーザー"}
+            </p>
           </div>
           <form action={handleSignOut}>
             <button
@@ -156,7 +167,7 @@ export default function SideNav() {
               title="Sign Out"
               className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-foreground"
             >
-              <PowerIcon className="h-4 w-4" />
+              <ArrowRightStartOnRectangleIcon className="h-6 w-6" />
             </button>
           </form>
         </div>

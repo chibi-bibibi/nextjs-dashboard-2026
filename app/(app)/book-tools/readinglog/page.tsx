@@ -67,7 +67,7 @@ const statusConfig: Record<
 export default function Page() {
   return (
     <main>
-      <PageHeader parent="Books" title="読書録" />
+      <PageHeader parent="Books" title="読書録"  className="hidden md:flex" />
       <div className="rounded-lg border border-border bg-card p-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

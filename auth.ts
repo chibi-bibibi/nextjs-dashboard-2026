@@ -20,13 +20,28 @@ async function getUser(email: string): Promise<User | undefined> {
  
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id as string;
+        token.group_code = (user.group_code as string | null) ?? null;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      const t = token as { id: string; group_code: string | null };
+      session.user.id = t.id;
+      session.user.group_code = t.group_code;
+      return session;
+    },
+  },
   providers: [
     Credentials({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({ email: z.string().email(), password: z.string().min(6) })
           .safeParse(credentials);
- 
+
         if (parsedCredentials.success) {
           const { email, password } = parsedCredentials.data;
           const user = await getUser(email);
@@ -34,7 +49,7 @@ export const { auth, signIn, signOut } = NextAuth({
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) return user;
         }
- 
+
         return null;
       },
     }),

@@ -5,18 +5,23 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 
 const tabs = [
-  { name: "Dashboard", href: "/book-tools" },
-  { name: "Category", href: "/book-tools/tags" },
-  { name: "Author", href: "/book-tools/authors" },
-  { name: "Publisher", href: "/book-tools/publishers" },
-  { name: "Books", href: "/book-tools/bookshelf" },
+  { name: "サマリ", href: "/book-tools" },
+  { name: "本棚", href: "/book-tools/bookshelf" },
+  { name: "読書録", href: "/book-tools/readinglog" },
+  { name: "出版社", href: "/book-tools/publishers" },
+  { name: "著者・訳者", href: "/book-tools/authors" },
+  { name: "タグ", href: "/book-tools/tags" },
 ];
 
 export default function BooksTabs() {
   const pathname = usePathname();
 
   return (
-    <div className="md:hidden mb-4 flex overflow-x-auto border-b border-gray-200">
+    <div className="md:hidden mb-4">
+      <p className="px-1 pb-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        BOOKS
+      </p>
+      <div className="flex overflow-x-auto border-b border-border [&::-webkit-scrollbar]:hidden scrollbar-none">
       {tabs.map((tab) => (
         <Link
           key={tab.href}
@@ -31,6 +36,7 @@ export default function BooksTabs() {
           {tab.name}
         </Link>
       ))}
+      </div>
     </div>
   );
 }

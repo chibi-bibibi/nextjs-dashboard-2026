@@ -7,6 +7,7 @@ export type User = {
   name: string;
   email: string;
   password: string;
+  group_code: string | null;
 };
 
 export type Customer = {
@@ -85,4 +86,31 @@ export type InvoiceForm = {
   customer_id: string;
   amount: number;
   status: 'pending' | 'paid';
+};
+
+export type BookRecord = {
+  id: string;
+  title: string;
+  publisher_id: string | null;
+  publisher_name: string | null;
+  published_at: string | null;
+  version: string | null;
+  group_code: string | null;
+  memo: string | null;
+  created_at: string;
+};
+
+export type BookForm = {
+  id: string;
+  title: string;
+  publisher_id: string | null;
+  published_at: string | null;
+  version: string | null;
+  group_code: string | null;
+  memo: string | null;
+};
+
+export type PublisherField = {
+  id: string;
+  name: string;
 };

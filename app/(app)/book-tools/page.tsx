@@ -13,7 +13,7 @@ const stats = [
 export default function Page() {
   return (
     <main>
-      <PageHeader parent="Books" title="ダッシュボード" />
+      <PageHeader parent="Books" title="ダッシュボード"  className="hidden md:flex" />
       <div className="rounded-lg border border-border bg-card p-6">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {stats.map(({ title, value, icon: Icon }) => (

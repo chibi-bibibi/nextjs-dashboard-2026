@@ -7,11 +7,11 @@ export const CATEGORY_TO_ROLE: Record<string, string> = {
   Translator: '訳者',
 };
 
-export const CATEGORY_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
-  Writer:     { label: "作者", bg: "#D4DCE8", text: "#445870" },
-  Author:     { label: "著者", bg: "#C8DCC8", text: "#3D5A3E" },
-  Editor:     { label: "編者", bg: "#E8D0D0", text: "#6B3A3A" },
-  Translator: { label: "訳者", bg: "#E8E0BC", text: "#6B5828" },
+export const CATEGORY_CONFIG: Record<string, { label: string; className: string }> = {
+  Writer:     { label: "作者", className: "bg-slate-200 text-slate-700 dark:bg-slate-700/60 dark:text-slate-200" },
+  Author:     { label: "著者", className: "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300" },
+  Editor:     { label: "編者", className: "bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300" },
+  Translator: { label: "訳者", className: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300" },
 };
 
 export function parseWriters(writerNames: string | null) {

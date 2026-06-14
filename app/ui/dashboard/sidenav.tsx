@@ -62,7 +62,7 @@ const menuSections: { title: string; items: NavItem[] }[] = [
         icon: BuildingOfficeIcon,
         href: "/book-tools/publishers",
       },
-      { name: "著者・訳者", icon: UserIcon, href: "/book-tools/authors" },
+      { name: "著者・訳者", icon: UserIcon, href: "/book-tools/writers" },
       { name: "タグ", icon: TagIcon, href: "/book-tools/tags" },
     ],
   },

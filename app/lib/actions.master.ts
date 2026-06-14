@@ -74,9 +74,9 @@ export async function deletePublisher(id: string) {
   redirect('/book-tools/publishers');
 }
 
-// ---- Authors / Writers ----
+// ---- Writers ----
 
-export async function createAuthor(_prev: MasterState, formData: FormData): Promise<MasterState> {
+export async function createWriter(_prev: MasterState, formData: FormData): Promise<MasterState> {
   const validated = NameSchema.safeParse({ name: formData.get('name') });
   if (!validated.success) {
     return { errors: validated.error.flatten().fieldErrors, message: '入力内容を確認してください。' };
@@ -90,11 +90,11 @@ export async function createAuthor(_prev: MasterState, formData: FormData): Prom
   } catch {
     return { message: 'データベースエラー：登録に失敗しました。' };
   }
-  revalidatePath('/book-tools/authors');
-  redirect('/book-tools/authors');
+  revalidatePath('/book-tools/writers');
+  redirect('/book-tools/writers');
 }
 
-export async function updateAuthor(id: string, _prev: MasterState, formData: FormData): Promise<MasterState> {
+export async function updateWriter(id: string, _prev: MasterState, formData: FormData): Promise<MasterState> {
   const validated = NameSchema.safeParse({ name: formData.get('name') });
   if (!validated.success) {
     return { errors: validated.error.flatten().fieldErrors, message: '入力内容を確認してください。' };
@@ -107,18 +107,18 @@ export async function updateAuthor(id: string, _prev: MasterState, formData: For
   } catch {
     return { message: 'データベースエラー：更新に失敗しました。' };
   }
-  revalidatePath('/book-tools/authors');
-  redirect('/book-tools/authors');
+  revalidatePath('/book-tools/writers');
+  redirect('/book-tools/writers');
 }
 
-export async function deleteAuthor(id: string) {
+export async function deleteWriter(id: string) {
   try {
     await sql`DELETE FROM book_tools.writers WHERE id = ${id}`;
   } catch {
     throw new Error('削除に失敗しました。');
   }
-  revalidatePath('/book-tools/authors');
-  redirect('/book-tools/authors');
+  revalidatePath('/book-tools/writers');
+  redirect('/book-tools/writers');
 }
 
 // ---- Tags ----

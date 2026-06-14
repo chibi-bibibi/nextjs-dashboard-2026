@@ -1,11 +1,11 @@
 import PageHeader from "@/app/ui/page-header";
 import CreateBookForm from "@/app/ui/bookshelf/create-form";
-import { fetchPublishers, fetchAuthors, fetchMainCategories, fetchSubCategories, fetchAllTags } from "@/app/lib/data.bookshelf";
+import { fetchPublishers, fetchWriters, fetchMainCategories, fetchSubCategories, fetchAllTags } from "@/app/lib/data.bookshelf";
 
 export default async function Page() {
-  const [publishers, authors, categories, subCategories, allTags] = await Promise.all([
+  const [publishers, writers, categories, subCategories, allTags] = await Promise.all([
     fetchPublishers(),
-    fetchAuthors(),
+    fetchWriters(),
     fetchMainCategories(),
     fetchSubCategories(),
     fetchAllTags(),
@@ -16,7 +16,7 @@ export default async function Page() {
       <PageHeader root="BOOKS" parent="本棚" title="本を追加" />
       <CreateBookForm
         publishers={publishers}
-        authors={authors}
+        writers={writers}
         categories={categories}
         subCategories={subCategories}
         allTags={allTags}

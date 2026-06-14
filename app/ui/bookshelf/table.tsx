@@ -59,8 +59,7 @@ export default async function BookshelfTable({
                         return (
                           <span
                             key={`${category}::${name}`}
-                            className={`shrink-0 inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs whitespace-nowrap${!cfg ? " bg-muted text-muted-foreground" : ""}`}
-                            style={cfg ? { backgroundColor: cfg.bg, color: cfg.text } : undefined}
+                            className={`shrink-0 inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs whitespace-nowrap ${cfg ? cfg.className : "bg-muted text-muted-foreground"}`}
                           >
                             {cfg && <span className="opacity-75">{cfg.label}</span>}
                             {name}

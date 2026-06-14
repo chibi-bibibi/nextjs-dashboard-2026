@@ -11,14 +11,14 @@ import { parseWriters, ROLES, CATEGORY_TO_ROLE } from '@/app/ui/bookshelf/writer
 import { inputClass, labelClass } from '@/app/ui/form-styles';
 import { toDateInputValue } from '@/app/lib/date-utils';
 
-type AuthorEntry = { role: string; name: string };
+type WriterEntry = { role: string; name: string };
 type CategoryOption = { id: string; name: string; category_no?: number; main_category_id?: string };
 type TagOption = { id: string; name: string };
 
 export default function EditBookForm({
   book,
   publishers,
-  authors: authorOptions,
+  writers: writerOptions,
   categories,
   subCategories,
   allTags,
@@ -26,7 +26,7 @@ export default function EditBookForm({
 }: {
   book: BookRecord;
   publishers: PublisherField[];
-  authors: PublisherField[];
+  writers: PublisherField[];
   categories: CategoryOption[];
   subCategories: CategoryOption[];
   allTags: TagOption[];
@@ -37,13 +37,13 @@ export default function EditBookForm({
   const [state, formAction] = useActionState<BookState, FormData>(updateBookWithId, initialState);
 
   const parsedWriters = book.writer_names ? parseWriters(book.writer_names) : [];
-  const initialAuthors: AuthorEntry[] = parsedWriters.length > 0
+  const initialWriters: WriterEntry[] = parsedWriters.length > 0
     ? parsedWriters.map(({ category, name }) => ({
         role: CATEGORY_TO_ROLE[category] ?? '著者',
         name,
       }))
     : [{ role: '著者', name: '' }];
-  const [selectedAuthors, setSelectedAuthors] = useState<AuthorEntry[]>(initialAuthors);
+  const [selectedWriters, setSelectedWriters] = useState<WriterEntry[]>(initialWriters);
 
   const initialMainId =
     subCategories.find((s) => s.id === book.sub_category_id)?.main_category_id ?? '';
@@ -59,11 +59,11 @@ export default function EditBookForm({
     ? subCategories.filter((s) => s.main_category_id === selectedMainId)
     : subCategories;
 
-  const addAuthorRow = () => setSelectedAuthors((prev) => [...prev, { role: '著者', name: '' }]);
-  const updateAuthorRow = (index: number, field: keyof AuthorEntry, value: string) =>
-    setSelectedAuthors((prev) => prev.map((a, i) => i === index ? { ...a, [field]: value } : a));
-  const removeAuthorRow = (index: number) =>
-    setSelectedAuthors((prev) => prev.filter((_, i) => i !== index));
+  const addWriterRow = () => setSelectedWriters((prev) => [...prev, { role: '著者', name: '' }]);
+  const updateWriterRow = (index: number, field: keyof WriterEntry, value: string) =>
+    setSelectedWriters((prev) => prev.map((a, i) => i === index ? { ...a, [field]: value } : a));
+  const removeWriterRow = (index: number) =>
+    setSelectedWriters((prev) => prev.filter((_, i) => i !== index));
 
   const addTagRow = () => setSelectedTags((prev) => [...prev, { id: '', name: '' }]);
   const updateTagRow = (index: number, name: string) => {
@@ -87,12 +87,12 @@ export default function EditBookForm({
         <div>
           <p className="text-sm font-medium text-foreground mb-1.5">著者</p>
           <div className="space-y-2">
-            {selectedAuthors.map((a, i) => (
+            {selectedWriters.map((a, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="flex-1 grid grid-cols-6 gap-2 md:flex-none md:w-1/2">
                   <select
                     value={a.role}
-                    onChange={(e) => updateAuthorRow(i, 'role', e.target.value)}
+                    onChange={(e) => updateWriterRow(i, 'role', e.target.value)}
                     className="col-span-2 md:col-span-1 rounded-md border border-border bg-background px-2 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   >
                     {ROLES.map((r) => <option key={r} value={r}>{r}</option>)}
@@ -100,16 +100,16 @@ export default function EditBookForm({
                   <input
                     type="text"
                     value={a.name}
-                    onChange={(e) => updateAuthorRow(i, 'name', e.target.value)}
+                    onChange={(e) => updateWriterRow(i, 'name', e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
                     placeholder="著者名を入力または選択"
                     className={`${inputClass} col-span-4 md:col-span-5`}
-                    list="authors-list"
+                    list="writers-list"
                   />
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeAuthorRow(i)}
+                  onClick={() => removeWriterRow(i)}
                   className={`shrink-0 rounded-md border p-2 transition-colors ${i === 0 ? 'invisible' : ''}`}
                   style={{ borderColor: '#C49090', color: '#8B4545' }}
                   onMouseEnter={(e) => i > 0 && (e.currentTarget.style.backgroundColor = '#F2EAEA')}
@@ -118,19 +118,19 @@ export default function EditBookForm({
                 >
                   <TrashIcon className="w-4 h-4" />
                 </button>
-                <input type="hidden" name="author_names" value={a.name} />
-                <input type="hidden" name="author_roles" value={a.role} />
+                <input type="hidden" name="writer_names" value={a.name} />
+                <input type="hidden" name="writer_roles" value={a.role} />
               </div>
             ))}
           </div>
-          <datalist id="authors-list">
-            {authorOptions.map((a) => <option key={a.id} value={a.name} />)}
+          <datalist id="writers-list">
+            {writerOptions.map((a) => <option key={a.id} value={a.name} />)}
           </datalist>
           <div className="mt-2 flex items-center gap-2">
             <div className="flex-1 grid grid-cols-6 gap-2 md:flex-none md:w-1/2">
               <button
                 type="button"
-                onClick={addAuthorRow}
+                onClick={addWriterRow}
                 className="col-span-2 md:col-span-1 rounded-md border border-primary py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
               >
                 行追加

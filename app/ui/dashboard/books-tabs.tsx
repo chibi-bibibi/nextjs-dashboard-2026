@@ -9,7 +9,7 @@ const tabs = [
   { name: "本棚", href: "/book-tools/bookshelf" },
   { name: "読書録", href: "/book-tools/readinglog" },
   { name: "出版社", href: "/book-tools/publishers" },
-  { name: "著者・訳者", href: "/book-tools/authors" },
+  { name: "著者・訳者", href: "/book-tools/writers" },
   { name: "タグ", href: "/book-tools/tags" },
 ];
 

@@ -110,8 +110,8 @@ export async function createBook(_prevState: BookState, formData: FormData) {
   }
 
   const { title, publisher_name, published_at, version, sub_category_id, memo } = validated.data;
-  const authorNames = formData.getAll('author_names').map(String).filter(Boolean);
-  const authorRoles = formData.getAll('author_roles').map(String);
+  const writerNames = formData.getAll('writer_names').map(String).filter(Boolean);
+  const writerRoles = formData.getAll('writer_roles').map(String);
   const tagIds = formData.getAll('tag_ids').map(String).filter(Boolean);
   const tagNewNames = formData.getAll('tag_new_names').map(String).filter(Boolean);
 
@@ -147,11 +147,11 @@ export async function createBook(_prevState: BookState, formData: FormData) {
     `;
     const bookId = inserted[0].id;
 
-    if (authorNames.length > 0) {
-      const writerIds = await resolveWriterIds(authorNames, group_code);
+    if (writerNames.length > 0) {
+      const writerIds = await resolveWriterIds(writerNames, group_code);
       for (let i = 0; i < writerIds.length; i++) {
         const writerId = writerIds[i];
-        const category = ROLE_TO_CATEGORY[authorRoles[i]] ?? null;
+        const category = ROLE_TO_CATEGORY[writerRoles[i]] ?? null;
         await sql`
           INSERT INTO book_tools.book_writer (book_id, writer_id, group_code, writer_category)
           VALUES (${bookId}, ${writerId}, ${group_code}, ${category})
@@ -189,8 +189,8 @@ export async function updateBook(
   const version = nullIfEmpty(formData.get('version'));
   const sub_category_id = nullIfEmpty(formData.get('sub_category_id'));
   const memo = nullIfEmpty(formData.get('memo'));
-  const authorNames = formData.getAll('author_names').map(String).filter(Boolean);
-  const authorRoles = formData.getAll('author_roles').map(String);
+  const writerNames = formData.getAll('writer_names').map(String).filter(Boolean);
+  const writerRoles = formData.getAll('writer_roles').map(String);
   const tagIds = formData.getAll('tag_ids').map(String).filter(Boolean);
   const tagNewNames = formData.getAll('tag_new_names').map(String).filter(Boolean);
 
@@ -227,10 +227,10 @@ export async function updateBook(
     `;
 
     await sql`DELETE FROM book_tools.book_writer WHERE book_id = ${id}`;
-    if (authorNames.length > 0) {
-      const writerIds = await resolveWriterIds(authorNames, group_code);
+    if (writerNames.length > 0) {
+      const writerIds = await resolveWriterIds(writerNames, group_code);
       for (let i = 0; i < writerIds.length; i++) {
-        const category = ROLE_TO_CATEGORY[authorRoles[i]] ?? null;
+        const category = ROLE_TO_CATEGORY[writerRoles[i]] ?? null;
         await sql`
           INSERT INTO book_tools.book_writer (book_id, writer_id, group_code, writer_category)
           VALUES (${id}, ${writerIds[i]}, ${group_code}, ${category})

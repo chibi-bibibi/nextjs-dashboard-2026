@@ -203,7 +203,7 @@ export async function fetchBookById(id: string) {
   }
 }
 
-export async function fetchAuthors() {
+export async function fetchWriters() {
   try {
     const data = await sql<PublisherField[]>`
       SELECT id, name FROM book_tools.writers ORDER BY name ASC
@@ -211,7 +211,7 @@ export async function fetchAuthors() {
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch authors.');
+    throw new Error('Failed to fetch writers.');
   }
 }
 
@@ -280,9 +280,9 @@ export async function fetchPublisherById(id: string) {
   }
 }
 
-// ---- Authors / Writers ----
+// ---- Writers ----
 
-export async function fetchAuthorsWithCount(query = '', currentPage = 1) {
+export async function fetchWritersWithCount(query = '', currentPage = 1) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const data = await sql<{ id: string; name: string; book_count: number; created_at: string }[]>`
@@ -298,11 +298,11 @@ export async function fetchAuthorsWithCount(query = '', currentPage = 1) {
     return data;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch authors.');
+    throw new Error('Failed to fetch writers.');
   }
 }
 
-export async function fetchAuthorsPages(query = '') {
+export async function fetchWritersPages(query = '') {
   try {
     const data = await sql`
       SELECT COUNT(*) FROM book_tools.writers
@@ -311,11 +311,11 @@ export async function fetchAuthorsPages(query = '') {
     return Math.ceil(Number(data[0].count) / ITEMS_PER_PAGE);
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch authors pages.');
+    throw new Error('Failed to fetch writers pages.');
   }
 }
 
-export async function fetchAuthorById(id: string) {
+export async function fetchWriterById(id: string) {
   try {
     const data = await sql<{ id: string; name: string; book_count: number; created_at: string; updated_at: string | null }[]>`
       SELECT w.id, w.name, w.created_at, w.updated_at,
@@ -329,7 +329,7 @@ export async function fetchAuthorById(id: string) {
     return data[0] ?? null;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to fetch author.');
+    throw new Error('Failed to fetch writer.');
   }
 }
 
@@ -422,8 +422,8 @@ export async function fetchMonthlyBookCounts() {
 export async function fetchBookSummaryData() {
   try {
     const [
-      bookCount, authorCount, publisherCount, tagCount,
-      recentBooks, topAuthors, topPublishers, topTags,
+      bookCount, writerCount, publisherCount, tagCount,
+      recentBooks, topWriters, topPublishers, topTags,
     ] = await Promise.all([
       sql`SELECT COUNT(*) FROM book_tools.books`,
       sql`SELECT COUNT(*) FROM book_tools.writers`,
@@ -463,11 +463,11 @@ export async function fetchBookSummaryData() {
     ]);
     return {
       bookCount: Number(bookCount[0].count),
-      authorCount: Number(authorCount[0].count),
+      writerCount: Number(writerCount[0].count),
       publisherCount: Number(publisherCount[0].count),
       tagCount: Number(tagCount[0].count),
       recentBooks,
-      topAuthors,
+      topWriters,
       topPublishers,
       topTags,
     };

@@ -27,8 +27,7 @@ export default function BookDetailCard({ book, editHref }: { book: BookRecord; e
                 return (
                   <span
                     key={`${category}::${name}`}
-                    className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm${!cfg ? " bg-muted text-foreground" : ""}`}
-                    style={cfg ? { backgroundColor: cfg.bg, color: cfg.text } : undefined}
+                    className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm ${cfg ? cfg.className : "bg-muted text-foreground"}`}
                   >
                     {cfg && <span className="opacity-75 text-xs">{cfg.label}</span>}
                     {name}

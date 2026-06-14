@@ -1,9 +1,9 @@
 import PageHeader from '@/app/ui/page-header';
 import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/books/pagination';
-import AuthorsTable from '@/app/ui/bookshelf/authors-table';
+import WritersTable from '@/app/ui/bookshelf/writers-table';
 import { CreateFab } from '@/app/ui/bookshelf/buttons';
-import { fetchAuthorsPages } from '@/app/lib/data.bookshelf';
+import { fetchWritersPages } from '@/app/lib/data.bookshelf';
 import TableSkeleton from '@/app/ui/table-skeleton';
 import { Suspense } from 'react';
 
@@ -13,7 +13,7 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query ?? '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchAuthorsPages(query);
+  const totalPages = await fetchWritersPages(query);
 
   return (
     <main>
@@ -25,14 +25,14 @@ export default async function Page(props: {
 
       <div className="rounded-lg border border-border bg-card p-6">
         <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
-          <AuthorsTable query={query} currentPage={currentPage} />
+          <WritersTable query={query} currentPage={currentPage} />
         </Suspense>
         <div className="mt-5 flex w-full justify-center">
           <Pagination totalPages={totalPages} />
         </div>
       </div>
 
-      <CreateFab href="/book-tools/authors/create" label="著者を追加" />
+      <CreateFab href="/book-tools/writers/create" label="著者を追加" />
     </main>
   );
 }

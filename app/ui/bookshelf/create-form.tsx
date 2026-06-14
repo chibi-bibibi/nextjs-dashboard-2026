@@ -10,19 +10,19 @@ import { inputClass, labelClass, errorClass } from "@/app/ui/form-styles";
 import { ROLES } from "@/app/ui/bookshelf/writer-chips";
 
 
-type AuthorEntry = { role: string; name: string };
+type WriterEntry = { role: string; name: string };
 type CategoryOption = { id: string; name: string; category_no?: number; main_category_id?: string };
 type TagOption = { id: string; name: string };
 
 export default function CreateBookForm({
   publishers,
-  authors: authorOptions,
+  writers: writerOptions,
   categories,
   subCategories,
   allTags,
 }: {
   publishers: PublisherField[];
-  authors: PublisherField[];
+  writers: PublisherField[];
   categories: CategoryOption[];
   subCategories: CategoryOption[];
   allTags: TagOption[];
@@ -30,7 +30,7 @@ export default function CreateBookForm({
   const initialState: BookState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createBook, initialState);
 
-  const [selectedAuthors, setSelectedAuthors] = useState<AuthorEntry[]>([{ role: "著者", name: "" }]);
+  const [selectedWriters, setSelectedWriters] = useState<WriterEntry[]>([{ role: "著者", name: "" }]);
   const [selectedMainId, setSelectedMainId] = useState("");
   const [selectedSubId, setSelectedSubId] = useState("");
   const [selectedTags, setSelectedTags] = useState<TagOption[]>([{ id: "", name: "" }]);
@@ -39,18 +39,18 @@ export default function CreateBookForm({
     ? subCategories.filter((s) => s.main_category_id === selectedMainId)
     : subCategories;
 
-  const addAuthorRow = () => {
-    setSelectedAuthors((prev) => [...prev, { role: "著者", name: "" }]);
+  const addWriterRow = () => {
+    setSelectedWriters((prev) => [...prev, { role: "著者", name: "" }]);
   };
 
-  const updateAuthorRow = (index: number, field: keyof AuthorEntry, value: string) => {
-    setSelectedAuthors((prev) =>
+  const updateWriterRow = (index: number, field: keyof WriterEntry, value: string) => {
+    setSelectedWriters((prev) =>
       prev.map((a, i) => (i === index ? { ...a, [field]: value } : a))
     );
   };
 
-  const removeAuthorRow = (index: number) => {
-    setSelectedAuthors((prev) => prev.filter((_, i) => i !== index));
+  const removeWriterRow = (index: number) => {
+    setSelectedWriters((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addTagRow = () => {
@@ -95,12 +95,12 @@ export default function CreateBookForm({
         <div>
           <p className="text-sm font-medium text-foreground mb-1.5">著者</p>
           <div className="space-y-2">
-            {selectedAuthors.map((a, i) => (
+            {selectedWriters.map((a, i) => (
               <div key={i} className="flex items-center gap-2">
                 <div className="flex-1 grid grid-cols-6 gap-2 md:flex-none md:w-1/2">
                   <select
                     value={a.role}
-                    onChange={(e) => updateAuthorRow(i, "role", e.target.value)}
+                    onChange={(e) => updateWriterRow(i, "role", e.target.value)}
                     className="col-span-2 md:col-span-1 rounded-md border border-border bg-background px-2 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
                   >
                     {ROLES.map((r) => (
@@ -110,16 +110,16 @@ export default function CreateBookForm({
                   <input
                     type="text"
                     value={a.name}
-                    onChange={(e) => updateAuthorRow(i, "name", e.target.value)}
+                    onChange={(e) => updateWriterRow(i, "name", e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
                     placeholder="著者名を入力または選択"
                     className={`${inputClass} col-span-4 md:col-span-5`}
-                    list="authors-list"
+                    list="writers-list"
                   />
                 </div>
                 <button
                   type="button"
-                  onClick={() => removeAuthorRow(i)}
+                  onClick={() => removeWriterRow(i)}
                   className={`shrink-0 rounded-md border p-2 transition-colors ${i === 0 ? "invisible" : ""}`}
                   style={{ borderColor: "#C49090", color: "#8B4545" }}
                   onMouseEnter={(e) => i > 0 && (e.currentTarget.style.backgroundColor = "#F2EAEA")}
@@ -128,13 +128,13 @@ export default function CreateBookForm({
                 >
                   <TrashIcon className="w-4 h-4" />
                 </button>
-                <input type="hidden" name="author_names" value={a.name} />
-                <input type="hidden" name="author_roles" value={a.role} />
+                <input type="hidden" name="writer_names" value={a.name} />
+                <input type="hidden" name="writer_roles" value={a.role} />
               </div>
             ))}
           </div>
-          <datalist id="authors-list">
-            {authorOptions.map((a) => (
+          <datalist id="writers-list">
+            {writerOptions.map((a) => (
               <option key={a.id} value={a.name} />
             ))}
           </datalist>
@@ -142,7 +142,7 @@ export default function CreateBookForm({
             <div className="flex-1 grid grid-cols-6 gap-2 md:flex-none md:w-1/2">
               <button
                 type="button"
-                onClick={addAuthorRow}
+                onClick={addWriterRow}
                 className="col-span-2 md:col-span-1 rounded-md border border-primary py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
               >
                 行追加

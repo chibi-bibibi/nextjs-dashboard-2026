@@ -7,13 +7,13 @@ import { formatDateJP as fmtDate } from "@/app/lib/date-utils";
 
 export default async function Page() {
   const [
-    { bookCount, authorCount, publisherCount, tagCount, recentBooks, topAuthors, topPublishers, topTags },
+    { bookCount, writerCount, publisherCount, tagCount, recentBooks, topWriters, topPublishers, topTags },
     monthlyCounts,
   ] = await Promise.all([fetchBookSummaryData(), fetchMonthlyBookCounts()]);
 
   const stats = [
     { title: "本棚", value: bookCount, unit: "冊", icon: BookOpenIcon, href: "/book-tools/bookshelf" },
-    { title: "著者", value: authorCount, unit: "人", icon: UsersIcon, href: "/book-tools/authors" },
+    { title: "著者", value: writerCount, unit: "人", icon: UsersIcon, href: "/book-tools/writers" },
     { title: "出版社", value: publisherCount, unit: "社", icon: BuildingOfficeIcon, href: "/book-tools/publishers" },
     { title: "タグ", value: tagCount, unit: "件", icon: TagIcon, href: "/book-tools/tags" },
   ];
@@ -52,7 +52,7 @@ export default async function Page() {
         {/* ランキング */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {[
-            { title: "著者", items: topAuthors, unit: "冊", href: "/book-tools/authors" },
+            { title: "著者", items: topWriters, unit: "冊", href: "/book-tools/writers" },
             { title: "出版社", items: topPublishers, unit: "冊", href: "/book-tools/publishers" },
             { title: "タグ", items: topTags, unit: "冊", href: "/book-tools/tags" },
           ].map(({ title, items, unit, href }) => (

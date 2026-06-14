@@ -1,23 +1,23 @@
 import PageHeader from "@/app/ui/page-header";
 import MasterForm from "@/app/ui/bookshelf/master-form";
-import { fetchAuthorById } from "@/app/lib/data.bookshelf";
-import { updateAuthor, deleteAuthor } from "@/app/lib/actions.master";
+import { fetchWriterById } from "@/app/lib/data.bookshelf";
+import { updateWriter, deleteWriter } from "@/app/lib/actions.master";
 import { notFound } from "next/navigation";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import { formatDateJP as fmtDate } from "@/app/lib/date-utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
-  const author = await fetchAuthorById(id);
-  if (!author) notFound();
+  const writer = await fetchWriterById(id);
+  if (!writer) notFound();
 
-  const action = updateAuthor.bind(null, id);
-  const deleteAction = deleteAuthor.bind(null, id);
+  const action = updateWriter.bind(null, id);
+  const deleteAction = deleteWriter.bind(null, id);
 
   const extraFields = [
-    { label: "書籍数",  value: author.book_count },
-    { label: "登録日",  value: fmtDate(author.created_at) },
-    { label: "更新日",  value: fmtDate(author.updated_at) },
+    { label: "書籍数",  value: writer.book_count },
+    { label: "登録日",  value: fmtDate(writer.created_at) },
+    { label: "更新日",  value: fmtDate(writer.updated_at) },
   ];
 
   return (
@@ -36,8 +36,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
       <MasterForm
         action={action}
-        cancelHref="/book-tools/authors"
-        defaultName={author.name}
+        cancelHref="/book-tools/writers"
+        defaultName={writer.name}
         label="著者・訳者名"
         extraFields={extraFields}
       />

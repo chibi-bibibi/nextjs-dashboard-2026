@@ -4,20 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { MasterState } from "@/app/lib/actions.master";
 import { Button } from "@/app/ui/button";
-
-const inputClass =
-  "block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
-const disabledClass =
-  "block w-full rounded-md border border-border bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed";
-const labelClass = "mb-1.5 block text-sm font-medium text-foreground";
-const errorClass = "mt-1 text-xs text-destructive";
-
-function fmtDate(dateStr: string | null | undefined) {
-  if (!dateStr) return "—";
-  return new Date(dateStr).toLocaleDateString("ja-JP", {
-    year: "numeric", month: "2-digit", day: "2-digit",
-  });
-}
+import { inputClass, labelClass, errorClass, disabledClass } from "@/app/ui/form-styles";
 
 type Page = { id: string; name: string };
 

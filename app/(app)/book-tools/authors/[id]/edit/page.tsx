@@ -4,11 +4,7 @@ import { fetchAuthorById } from "@/app/lib/data.bookshelf";
 import { updateAuthor, deleteAuthor } from "@/app/lib/actions.master";
 import { notFound } from "next/navigation";
 import { TrashIcon } from "@heroicons/react/24/outline";
-
-function fmtDate(s: string | null | undefined) {
-  if (!s) return "—";
-  return new Date(s).toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" });
-}
+import { formatDateJP as fmtDate } from "@/app/lib/date-utils";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;

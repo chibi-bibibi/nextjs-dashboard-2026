@@ -6,13 +6,8 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { createBook, BookState } from "@/app/lib/actions.bookshelf";
 import { PublisherField } from "@/app/lib/definitions";
 import { Button } from "@/app/ui/button";
-
-const inputClass =
-  "block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
-const labelClass = "mb-1.5 block text-sm font-medium text-foreground";
-const errorClass = "mt-1 text-xs text-destructive";
-
-const ROLES = ["作者", "著者", "編者", "訳者"] as const;
+import { inputClass, labelClass, errorClass } from "@/app/ui/form-styles";
+import { ROLES } from "@/app/ui/bookshelf/writer-chips";
 
 
 type AuthorEntry = { role: string; name: string };

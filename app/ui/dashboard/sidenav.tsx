@@ -15,6 +15,9 @@ import {
   Cog6ToothIcon,
   ChartBarSquareIcon,
   PencilSquareIcon,
+  MusicalNoteIcon,
+  GlobeAltIcon,
+  MapPinIcon,
 } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import AcmeLogo from "@/app/ui/acme-logo";
@@ -33,7 +36,10 @@ type NavItem =
 const menuSections: { title: string; items: NavItem[] }[] = [
   {
     title: "メイン",
-    items: [{ name: "ホーム", icon: HomeIcon, href: "/", exact: true }],
+    items: [
+      { name: "ホーム", icon: HomeIcon, href: "/", exact: true },
+      { name: "場所", icon: MapPinIcon, href: "/locations" },
+    ],
   },
   {
     title: "BOOKS",
@@ -58,6 +64,26 @@ const menuSections: { title: string; items: NavItem[] }[] = [
       },
       { name: "著者・訳者", icon: UserIcon, href: "/book-tools/authors" },
       { name: "タグ", icon: TagIcon, href: "/book-tools/tags" },
+    ],
+  },
+  {
+    title: "MUSIC",
+    items: [
+      { name: "サマリ", icon: ChartBarSquareIcon, href: "/music-tools", exact: true },
+      { name: "マイミュージック", icon: MusicalNoteIcon, href: "/music-tools/library" },
+      { separator: true },
+      { name: "アーティスト", icon: UserIcon, href: "/music-tools/artists" },
+      { name: "タグ", icon: TagIcon, href: "/music-tools/tags" },
+    ],
+  },
+  {
+    title: "TRAVEL",
+    items: [
+      { name: "サマリ", icon: ChartBarSquareIcon, href: "/travel-tools", exact: true },
+      { name: "旅行記録", icon: GlobeAltIcon, href: "/travel-tools/trips" },
+      { separator: true },
+      { name: "訪問地", icon: MapPinIcon, href: "/travel-tools/places" },
+      { name: "タグ", icon: TagIcon, href: "/travel-tools/tags" },
     ],
   },
   {

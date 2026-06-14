@@ -3,10 +3,7 @@ import PageHeader from "@/app/ui/page-header";
 import { BookOpenIcon, UsersIcon, BuildingOfficeIcon, TagIcon } from "@heroicons/react/24/outline";
 import { fetchBookSummaryData, fetchMonthlyBookCounts } from "@/app/lib/data.bookshelf";
 import BookChart from "@/app/ui/bookshelf/book-chart";
-
-function fmtDate(s: string) {
-  return new Date(s).toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" });
-}
+import { formatDateJP as fmtDate } from "@/app/lib/date-utils";
 
 export default async function Page() {
   const [

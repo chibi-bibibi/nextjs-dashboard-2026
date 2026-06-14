@@ -7,25 +7,9 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { updateBook, BookState } from '@/app/lib/actions.bookshelf';
 import { BookRecord, PublisherField } from '@/app/lib/definitions';
 import { Button } from '@/app/ui/button';
-import { parseWriters } from '@/app/ui/bookshelf/writer-chips';
-
-const inputClass =
-  'block w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring';
-const labelClass = 'mb-1.5 block text-sm font-medium text-foreground';
-
-const ROLES = ['作者', '著者', '編者', '訳者'] as const;
-
-const CATEGORY_TO_ROLE: Record<string, string> = {
-  Writer: '作者',
-  Author: '著者',
-  Editor: '編者',
-  Translator: '訳者',
-};
-
-function toDateInputValue(dateStr: string | null) {
-  if (!dateStr) return '';
-  return dateStr.slice(0, 10);
-}
+import { parseWriters, ROLES, CATEGORY_TO_ROLE } from '@/app/ui/bookshelf/writer-chips';
+import { inputClass, labelClass } from '@/app/ui/form-styles';
+import { toDateInputValue } from '@/app/lib/date-utils';
 
 type AuthorEntry = { role: string; name: string };
 type CategoryOption = { id: string; name: string; category_no?: number; main_category_id?: string };

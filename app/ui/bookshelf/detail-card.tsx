@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { BookRecord } from "@/app/lib/definitions";
 import { parseWriters, CATEGORY_CONFIG } from "@/app/ui/bookshelf/writer-chips";
-
-const labelClass = "mb-1.5 block text-sm font-medium text-foreground";
-
-function fmtDate(s: string | null | undefined) {
-  if (!s) return "—";
-  return new Date(s).toLocaleDateString("ja-JP", { year: "numeric", month: "2-digit", day: "2-digit" });
-}
+import { labelClass } from "@/app/ui/form-styles";
+import { formatDateJP as fmtDate } from "@/app/lib/date-utils";
 
 function Field({ label, value }: { label: string; value: string | null | undefined }) {
   return (

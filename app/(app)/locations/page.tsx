@@ -1,11 +1,11 @@
+import { Suspense } from 'react';
 import PageHeader from '@/app/ui/page-header';
 import Search from '@/app/ui/search';
 import Pagination from '@/app/ui/books/pagination';
-import TagsTable from '@/app/ui/bookshelf/tags-table';
+import LocationsTable from '@/app/ui/locations/table';
 import { CreateFab } from '@/app/ui/bookshelf/buttons';
-import { fetchTagsPages } from '@/app/lib/data.bookshelf';
+import { fetchLocationsPages } from '@/app/lib/data.locations';
 import TableSkeleton from '@/app/ui/table-skeleton';
-import { Suspense } from 'react';
 
 export default async function Page(props: {
   searchParams?: Promise<{ query?: string; page?: string }>;
@@ -13,26 +13,26 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query ?? '';
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await fetchTagsPages(query);
+  const totalPages = await fetchLocationsPages(query);
 
   return (
     <main>
-      <PageHeader parent="BOOKS" title="タグ" className="hidden md:flex" />
+      <PageHeader title="場所" className="hidden md:flex" />
 
       <div className="rounded-lg border border-border bg-card p-4 mb-4">
-        <Search placeholder="タグ名で検索..." />
+        <Search placeholder="場所名・かな・ローマ字で検索..." />
       </div>
 
       <div className="rounded-lg border border-border bg-card p-6">
         <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
-          <TagsTable query={query} currentPage={currentPage} />
+          <LocationsTable query={query} currentPage={currentPage} />
         </Suspense>
         <div className="mt-5 flex w-full justify-center">
           <Pagination totalPages={totalPages} />
         </div>
       </div>
 
-      <CreateFab href="/book-tools/tags/create" label="タグを追加" />
+      <CreateFab href="/locations/create" label="場所を追加" />
     </main>
   );
 }

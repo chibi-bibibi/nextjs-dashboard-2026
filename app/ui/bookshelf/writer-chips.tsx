@@ -1,3 +1,12 @@
+export const ROLES = ['作者', '著者', '編者', '訳者'] as const;
+
+export const CATEGORY_TO_ROLE: Record<string, string> = {
+  Writer: '作者',
+  Author: '著者',
+  Editor: '編者',
+  Translator: '訳者',
+};
+
 export const CATEGORY_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
   Writer:     { label: "作者", bg: "#D4DCE8", text: "#445870" },
   Author:     { label: "著者", bg: "#C8DCC8", text: "#3D5A3E" },

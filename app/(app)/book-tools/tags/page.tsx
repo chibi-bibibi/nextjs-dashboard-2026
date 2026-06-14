@@ -1,12 +1,47 @@
 import PageHeader from "@/app/ui/page-header";
+import Search from "@/app/ui/search";
+import Pagination from "@/app/ui/books/pagination";
+import TagsTable from "@/app/ui/bookshelf/tags-table";
+import { CreateFab } from "@/app/ui/bookshelf/buttons";
+import { fetchTagsPages } from "@/app/lib/data.bookshelf";
+import { Suspense } from "react";
 
-export default function Page() {
+function TableSkeleton() {
+  return (
+    <div className="mt-4 h-90 overflow-auto animate-pulse space-y-3">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="h-10 rounded bg-muted" />
+      ))}
+    </div>
+  );
+}
+
+export default async function Page(props: {
+  searchParams?: Promise<{ query?: string; page?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query ?? "";
+  const currentPage = Number(searchParams?.page) || 1;
+  const totalPages = await fetchTagsPages(query);
+
   return (
     <main>
-      <PageHeader parent="Books" title="カテゴリー"  className="hidden md:flex" />
-      <div className="rounded-lg border border-border bg-card p-6">
-        <p className="text-muted-foreground">コンテンツは準備中です。</p>
+      <PageHeader parent="BOOKS" title="タグ" className="hidden md:flex" />
+
+      <div className="rounded-lg border border-border bg-card p-4 mb-4">
+        <Search placeholder="タグ名で検索..." />
       </div>
+
+      <div className="rounded-lg border border-border bg-card p-6">
+        <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
+          <TagsTable query={query} currentPage={currentPage} />
+        </Suspense>
+        <div className="mt-5 flex w-full justify-center">
+          <Pagination totalPages={totalPages} />
+        </div>
+      </div>
+
+      <CreateFab href="/book-tools/tags/create" label="タグを追加" />
     </main>
   );
 }

@@ -14,6 +14,30 @@ export function CreateBook() {
   );
 }
 
+export function CreateBookFab() {
+  return (
+    <Link
+      href="/book-tools/bookshelf/create"
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-colors hover:bg-primary/90"
+      aria-label="書籍を追加"
+    >
+      <PlusIcon className="h-6 w-6" />
+    </Link>
+  );
+}
+
+export function CreateFab({ href, label }: { href: string; label: string }) {
+  return (
+    <Link
+      href={href}
+      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-colors hover:bg-primary/90"
+      aria-label={label}
+    >
+      <PlusIcon className="h-6 w-6" />
+    </Link>
+  );
+}
+
 export function UpdateBook({ id }: { id: string }) {
   return (
     <Link

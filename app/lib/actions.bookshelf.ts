@@ -10,13 +10,12 @@ const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
 const BOOKSHELF_PATH = '/book-tools/bookshelf';
 
-const BookFormSchema = z.object({
-  title: z.string().min(1, { message: 'タイトルを入力してください。' }),
-  publisher_id: z.string().nullable().optional(),
-  published_at: z.string().nullable().optional(),
-  version: z.string().max(50).nullable().optional(),
-  memo: z.string().nullable().optional(),
-});
+const ROLE_TO_CATEGORY: Record<string, string> = {
+  作者: 'Writer',
+  著者: 'Author',
+  編者: 'Editor',
+  訳者: 'Translator',
+};
 
 export type BookState = {
   errors?: {
@@ -37,18 +36,6 @@ async function getSessionUser() {
   return { id, group_code };
 }
 
-function parseFormData(formData: FormData) {
-  const nullIfEmpty = (v: FormDataEntryValue | null) =>
-    v === '' || v === null ? null : String(v);
-
-  return {
-    title: formData.get('title') as string,
-    publisher_id: nullIfEmpty(formData.get('publisher_id')),
-    published_at: nullIfEmpty(formData.get('published_at')),
-    version: nullIfEmpty(formData.get('version')),
-    memo: nullIfEmpty(formData.get('memo')),
-  };
-}
 
 async function resolveWriterIds(names: string[], groupCode: string | null): Promise<string[]> {
   if (names.length === 0) return [];
@@ -102,6 +89,7 @@ export async function createBook(_prevState: BookState, formData: FormData) {
     publisher_name: nullIfEmpty(formData.get('publisher_name')),
     published_at: nullIfEmpty(formData.get('published_at')),
     version: nullIfEmpty(formData.get('version')),
+    sub_category_id: nullIfEmpty(formData.get('sub_category_id')),
     memo: nullIfEmpty(formData.get('memo')),
   };
 
@@ -110,6 +98,7 @@ export async function createBook(_prevState: BookState, formData: FormData) {
     publisher_name: z.string().nullable().optional(),
     published_at: z.string().nullable().optional(),
     version: z.string().max(50).nullable().optional(),
+    sub_category_id: z.string().nullable().optional(),
     memo: z.string().nullable().optional(),
   }).safeParse(raw);
 
@@ -120,20 +109,39 @@ export async function createBook(_prevState: BookState, formData: FormData) {
     };
   }
 
-  const { title, publisher_name, published_at, version, memo } = validated.data;
+  const { title, publisher_name, published_at, version, sub_category_id, memo } = validated.data;
   const authorNames = formData.getAll('author_names').map(String).filter(Boolean);
+  const authorRoles = formData.getAll('author_roles').map(String);
+  const tagIds = formData.getAll('tag_ids').map(String).filter(Boolean);
+  const tagNewNames = formData.getAll('tag_new_names').map(String).filter(Boolean);
 
   try {
     const { id: userId, group_code } = await getSessionUser();
     const publisher_id = await resolvePublisherId(publisher_name ?? null, group_code);
 
+    if (tagNewNames.length > 0) {
+      const pageRows = await sql<{ id: string }[]>`
+        SELECT id FROM pages WHERE name = 'book_tools' LIMIT 1
+      `;
+      const pageId = pageRows[0]?.id ?? null;
+      for (const name of tagNewNames) {
+        const created = await sql<{ id: string }[]>`
+          INSERT INTO tags (name, page_id, group_code)
+          VALUES (${name}, ${pageId}, ${group_code})
+          ON CONFLICT DO NOTHING
+          RETURNING id
+        `;
+        if (created[0]) tagIds.push(created[0].id);
+      }
+    }
+
     const inserted = await sql<{ id: string }[]>`
       INSERT INTO book_tools.books
-        (title, publisher_id, published_at, version, group_code, memo,
+        (title, publisher_id, published_at, version, sub_category_id, group_code, memo,
          create_user_id, update_user_id)
       VALUES
         (${title}, ${publisher_id ?? null}, ${published_at ?? null},
-         ${version ?? null}, ${group_code}, ${memo ?? null},
+         ${version ?? null}, ${sub_category_id ?? null}, ${group_code}, ${memo ?? null},
          ${userId}, ${userId})
       RETURNING id
     `;
@@ -141,13 +149,23 @@ export async function createBook(_prevState: BookState, formData: FormData) {
 
     if (authorNames.length > 0) {
       const writerIds = await resolveWriterIds(authorNames, group_code);
-      for (const writerId of writerIds) {
+      for (let i = 0; i < writerIds.length; i++) {
+        const writerId = writerIds[i];
+        const category = ROLE_TO_CATEGORY[authorRoles[i]] ?? null;
         await sql`
-          INSERT INTO book_tools.book_writer (book_id, writer_id, group_code)
-          VALUES (${bookId}, ${writerId}, ${group_code})
+          INSERT INTO book_tools.book_writer (book_id, writer_id, group_code, writer_category)
+          VALUES (${bookId}, ${writerId}, ${group_code}, ${category})
           ON CONFLICT (book_id, writer_id) DO NOTHING
         `;
       }
+    }
+
+    for (const tagId of tagIds) {
+      await sql`
+        INSERT INTO book_tools.book_tag (book_id, tag_id, group_code)
+        VALUES (${bookId}, ${tagId}, ${group_code})
+        ON CONFLICT DO NOTHING
+      `;
     }
   } catch (error) {
     console.error(error);
@@ -162,33 +180,73 @@ export async function updateBook(
   id: string,
   _prevState: BookState,
   formData: FormData,
-) {
-  const raw = parseFormData(formData);
-  const validated = BookFormSchema.safeParse(raw);
+): Promise<BookState> {
+  const nullIfEmpty = (v: FormDataEntryValue | null) =>
+    v === '' || v === null ? null : String(v);
 
-  if (!validated.success) {
-    return {
-      errors: validated.error.flatten().fieldErrors,
-      message: '入力内容を確認してください。',
-    };
-  }
-
-  const { title, publisher_id, published_at, version, memo } = validated.data;
+  const publisher_name = nullIfEmpty(formData.get('publisher_name'));
+  const published_at = nullIfEmpty(formData.get('published_at'));
+  const version = nullIfEmpty(formData.get('version'));
+  const sub_category_id = nullIfEmpty(formData.get('sub_category_id'));
+  const memo = nullIfEmpty(formData.get('memo'));
+  const authorNames = formData.getAll('author_names').map(String).filter(Boolean);
+  const authorRoles = formData.getAll('author_roles').map(String);
+  const tagIds = formData.getAll('tag_ids').map(String).filter(Boolean);
+  const tagNewNames = formData.getAll('tag_new_names').map(String).filter(Boolean);
 
   try {
     const { id: userId, group_code } = await getSessionUser();
+    const publisher_id = await resolvePublisherId(publisher_name, group_code);
+
+    if (tagNewNames.length > 0) {
+      const pageRows = await sql<{ id: string }[]>`
+        SELECT id FROM pages WHERE name = 'book_tools' LIMIT 1
+      `;
+      const pageId = pageRows[0]?.id ?? null;
+      for (const name of tagNewNames) {
+        const created = await sql<{ id: string }[]>`
+          INSERT INTO tags (name, page_id, group_code)
+          VALUES (${name}, ${pageId}, ${group_code})
+          ON CONFLICT DO NOTHING
+          RETURNING id
+        `;
+        if (created[0]) tagIds.push(created[0].id);
+      }
+    }
+
     await sql`
       UPDATE book_tools.books SET
-        title          = ${title},
-        publisher_id   = ${publisher_id ?? null},
-        published_at   = ${published_at ?? null},
-        version        = ${version ?? null},
-        group_code     = ${group_code},
-        memo           = ${memo ?? null},
-        update_user_id = ${userId},
-        updated_at     = NOW()
+        publisher_id     = ${publisher_id ?? null},
+        published_at     = ${published_at ?? null},
+        version          = ${version ?? null},
+        sub_category_id  = ${sub_category_id ?? null},
+        memo             = ${memo ?? null},
+        update_user_id   = ${userId},
+        updated_at       = NOW()
       WHERE id = ${id}
     `;
+
+    await sql`DELETE FROM book_tools.book_writer WHERE book_id = ${id}`;
+    if (authorNames.length > 0) {
+      const writerIds = await resolveWriterIds(authorNames, group_code);
+      for (let i = 0; i < writerIds.length; i++) {
+        const category = ROLE_TO_CATEGORY[authorRoles[i]] ?? null;
+        await sql`
+          INSERT INTO book_tools.book_writer (book_id, writer_id, group_code, writer_category)
+          VALUES (${id}, ${writerIds[i]}, ${group_code}, ${category})
+          ON CONFLICT (book_id, writer_id) DO NOTHING
+        `;
+      }
+    }
+
+    await sql`DELETE FROM book_tools.book_tag WHERE book_id = ${id}`;
+    for (const tagId of tagIds) {
+      await sql`
+        INSERT INTO book_tools.book_tag (book_id, tag_id, group_code)
+        VALUES (${id}, ${tagId}, ${group_code})
+        ON CONFLICT DO NOTHING
+      `;
+    }
   } catch (error) {
     console.error(error);
     return { message: 'データベースエラー：更新に失敗しました。' };

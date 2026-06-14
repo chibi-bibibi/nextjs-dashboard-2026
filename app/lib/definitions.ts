@@ -98,12 +98,14 @@ export type BookRecord = {
   group_code: string | null;
   main_category_no: number | null;
   main_category_name: string | null;
+  sub_category_id: string | null;
   sub_category_no: number | null;
   sub_category_name: string | null;
   writer_names: string | null;
   tag_names: string | null;
   memo: string | null;
   created_at: string;
+  updated_at: string | null;
 };
 
 export type BookForm = {
